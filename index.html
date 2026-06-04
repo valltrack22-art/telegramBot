@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUONION | DePIN Network</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            QUONION
+        </div>
+        <button class="home-button-active" id="buttonHome">HOME</button>
+        <button class="connection-button-" id="buttonConnection">CONNECTION</button>
+        <button class="main-button-" id="buttonMain">NODES</button>
+    </header>
+
+    <main class="HOMEactive">
+        <!-- 1. Hero Section -->
+        <section class="hero">
+            <div id="planet-container">
+                <canvas id="planet-canvas"></canvas>
+            </div>
+          <div class="hero-content">  
+            <h1>QUONION</h1>
+            <p class="heroP">Децентрализованная оверлейная P2P-сеть нового поколения. Безопасность Tor со скоростью HTTP/3.</p>
+            <div class="cta-group">
+                <button class="btn btn-primary" id="start-node-btn">Запустить Ноду</button>
+                <button class="btn btn-secondary">Whitepaper</button>
+            </div>
+          </div>  
+        </section>
+
+        <!-- 2. Техническое Мясо -->
+        <section class="features" id="features">
+            <h2 data-aos="fade-right" class="section-title">Под капотом</h2>
+            <p class="section-subtitle" data-aos="fade" data-aos-delay="300">Архитектура, созданная для обхода любых блокировок без потери скорости.</p>
+            
+            <div class="features-grid">
+                <div data-aos="fade-right" class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <h3>Async Rust (Tokio)</h3>
+                    <p>Максимальный перформанс и пуленепробиваемая безопасность работы с памятью. Обработка миллионов асинхронных запросов без задержек.</p>
+                </div>
+                
+                <div data-aos="fade-up" class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/>
+                    </svg>
+                    <h3>QUIC (UDP) Transport</h3>
+                    <p>Забудьте про TCP Head-of-Line Blocking. Наша сеть работает стабильно даже там, где обычные VPN и Tor ложатся под дубинками DPI.</p>
+                </div>
+
+                <div data-aos="fade-left" class="feature-card">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <h3>Perfect Forward Secrecy</h3>
+                    <p>3-слойное сквозное шифрование (X25519). Сессионные ключи ротируются на лету и стираются. Прошлый трафик невозможно расшифровать задним числом.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Тестнет -->
+        <section class="testnet" id="testnet">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Incentivized Testnet is Live
+            </div>
+            
+            <h2 data-aos="fade-right" class="section-title">Стань частью инфраструктуры — Получай поинты</h2>
+            <p class="section-subtitle" data-aos="fade" data-aos-delay="300">Запускай ноду через терминал на своем ПК или VPS, делись неиспользуемой пропускной способностью и копи внутренние подтвержденные поинты экосистемы.</p>
+            
+            <div data-aos="fade-up" class="terminal-box">
+                <p class="terminalText">Windows</p>
+                <div class="code" >iwr -useb http://quonion.xyz/install.ps1 | iex</div>
+                <button class="copy-btn" title="Скопировать команду">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </button>
+            </div>
+
+         <div data-aos="fade-up" class="terminal-box">
+            <p class="terminalText">Linux, macOS</p>
+                <div class="code">curl -sSf http://quonion.xyz/install.sh | sudo bash</div>
+                <button class="copy-btn" title="Скопировать команду">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <p class="terminal-note" data-aos="fade" data-aos-delay="300">При запуске скрипт сам спросит, хотите ли вы быть Exit-шлюзом или обычной Guard-нодой.</p>
+
+            <div data-aos="fade-left" class="download">
+                <p><strong>1. Если он жмет Enter (по умолчанию No ):</strong>
+Скрипт прописывает запуск команды <b>/usr/local/bin/quonion-node 9000</b>
+Твоя Нода запускается, видит, что флага —exit нет, и работает только как транзит. Она просто гоняет непонятный зашифрованный шум (QUIC/UDP) к другим нодам. Для владельца такого сервера провайдер никогда не пришлет ему жалобу, потому что нода не выходит это абсолютно безопасно в клирнет</p>
+
+            </div>
+            <div data-aos="fade-left" class="download">
+            <p><strong>2. Если он пишет у (Yes):</strong>
+Скрипт меняет команду запуска на <b>/usr/local/bin/quonion-node 9000 -exit.</b>
+Твой Rust-код считывает этот аргумент командной строки <b>(std::env::args().any(larg| arg exit"))</b>, переключается в режим Exit, отправляет в Директорию статус "is_exit": true и начинает расшифровывать последний слой, чтобы физически подключаться к сайтам (ТСР).
+            </p>    
+            </div>
+        </section>
+
+        <!-- 4. Пользователи -->
+        <section class="users" id="users">
+            <div class="users-content">
+                <h2 data-aos="fade-right" class="section-title">Приватность, подкрепленная реальным спросом</h2>
+                
+                <div data-aos="fade-left" class="promo-box">
+                    <h3>Early Adopters Promo</h3>
+                    <p>На старте мы даем 1 месяц абсолютно бесплатного и безлимитного VPN-доступа для первых <strong>10,000 пользователей</strong>, чтобы раскачать сеть и протестировать нагрузки.</p>
+                </div>
+                
+                <p data-aos="fade-up" class="economy-text">
+                    <strong>Дальнейшая модель:</strong> После завершения промо-периода доступ к сети покупается за поинты, которые напрямую уходят нодраннерам, обеспечивающим трафик. Реальный спрос генерирует реальную ценность для держателей узлов.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <main class="CONNECTION">
+        <section class="hero">
+            <div>
+                <p>adafdfdfdfdfdfdfdfdfdfdfdfdfdfdf</p>
+            </div>
+        </section>
+    </main>
+
+    <main class="MAIN">
+        <section class="hero">
+            <div class="node-card" id="node">
+                    <div class="node-box">
+                        <p class="nodeText">Node ame</p>
+                        <div class="node">я хз че сюда писать</div>
+                         <div class="status-badgeNode">
+                            <div class="status-node"></div>
+                            online
+                        </div>
+                    </div>
+            </div>
+        </section>
+
+    </main>
+
+
+
+
+    <!-- 5. Footer -->
+    <footer>
+        <div class="logo-container">
+            QUONION
+        </div>
+        <div class="footer-links">
+            <a href="#" target="_blank">Twitter (X)</a>
+            <a href="#" target="_blank">Documentation</a>
+            <a href="#" target="_blank">GitHub</a>
+        </div>
+        <div class="copyright">
+            © 2026 Quonion Network. All rights reserved.
+        </div>
+    </footer>
+
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
