@@ -409,8 +409,21 @@
             padding: 2%; font-family: 'Courier New', monospace;
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 16px; text-align: left;
+
+            max-width: 90%;       /* Ограничиваем блок шириной экрана/родителя */
+            box-sizing: border-box;
             
         }
+        @media (min-width: 768px) {
+            .terminal-box {
+            max-width: 90%; /* Немного сужаем, добавляем отступы по бокам */
+           }
+        }
+        @media (min-width: 1200px) {
+          .terminal-box {
+          max-width: 700px; /* Фиксируем максимальную ширину, чтобы на огромных мониторах блок не растягивался во всю ширь */
+        }
+}
 
         .terminal-box:last-of-type {
             margin-right: 0;
@@ -424,6 +437,7 @@
             flex-basis: 20%;
             flex-shrink: 0;
             text-align: left;
+            
         }
 
         .download {
@@ -445,6 +459,10 @@
             
             white-space: nowrap;
             overflow-x: auto;
+
+            min-width: 0;          /* КРИТИЧЕСКИ ВАЖНО для flexbox: сбрасывает дефолтное min-content */
+            overflow: hidden;      /* Не дает тексту вываливаться наружу */
+            width: 100%;
          }
         
         .copy-btn {
@@ -452,6 +470,26 @@
             cursor: pointer; transition: color 0.2s; margin-left: 16px; padding: 4px;
         }
         .copy-btn:hover { color: #fff; }
+
+        .copy-btn {
+            transition: all 0.2s ease;
+            }
+
+            .copy-btn .success-check {
+            color: #28a745;
+            animation: popIn 0.3s ease-out;
+            } 
+
+            @keyframes popIn {
+            0% {
+                transform: scale(0.6);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            }
 
         .terminal-note { color: #666; font-size: 0.9rem; font-style: italic; }
 
@@ -496,7 +534,22 @@
             footer { flex-direction: column; text-align: center; }
         }
 
+         /* звезды */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Уводим на задний план, чтобы не мешал контенту */
+            pointer-events: none; /* Клик сквозь холст на элементы сайта */
+        }
 
+        .content {
+            position: relative;
+            color: white;
+            text-align: center;
+        }
 
         .CONNECTION {
             display:none;
@@ -521,11 +574,12 @@
         .node-card {
             background-color: var(--card-bg);
             border: 1px solid var(--accent-border);
-            padding: 10px 20px;
+            padding: 10px 10px;
             border-radius: 4px;
             transition: border-color 0.3s;
-            width: 80%;
-            min-height: 700px;
+            width: 30%;
+            min-width: 300px;
+            min-height: 500px;
         }
 
         .node {
@@ -540,22 +594,23 @@
         }
 
         .node-box {
-            background: #000;
+            background: #0e0e0e;
             border: 1px solid #444;
-            border-radius: 4px; width: 100%; max-width: 700px;
-            padding: 24px; font-family: 'Courier New', monospace;
+            border-radius: 2px; width: 100%;
+            padding: 2% 3% 2% 2%; font-family: 'Courier New', monospace;
             display: flex; justify-content: space-between; align-items: center;
             text-align: left;
-            height: 100px;
+            height: 1%;
             color:#fff;
+            margin-top: 5px;
             
         }
 
         .nodeText { 
-            font-size: clamp(16px, 2.5vw, 20px);
+            font-size: clamp(12px, 2.5vw, 16px);
             color: #ffffff; margin-right: 1%;
             flex-shrink: 0;
-            text-align: left;
+            text-align: center;
         }
 
         .status-node {
@@ -572,4 +627,34 @@
             border-radius: 100px; font-size: clamp(10px, 2.5vw, 16px); font-weight: 600;
             background: rgba(255,255,255,0.02);
         }
+
+
+            .plate-online {
+            width: 70%;
+            height: 7px;
+            background-color: #ffffff;
+            border-radius: 40px; 
+            box-shadow: 0 0 10px rgba(255,255,255,0.8   );
+            animation: pulse 2s infinite;
+            }
+
+            .node-header { 
+                border-radius: 2px; width: 100%;
+                padding: 0%; font-family: 'Courier New', monospace;
+                display: flex; justify-content: space-between; align-items: center;
+                text-align: left;
+                height: 1%;
+                color:#6e6e6e;
+                padding-right: 30%;
+
+            }
         
+        .balance {
+            font-size: clamp(12px, 2.5vw, 16px);
+            background-color: #0e0e0e;
+            width: 30%;
+            padding: 0.5%;
+            border: 1px solid #444;
+            border-radius: 30px;
+            margin-bottom: 10px;
+        }
