@@ -5,13 +5,11 @@ const canvas2 = document.getElementById('starfield');
   const SPEED = 1.2;      // Скорость полета
   let stars = [];
 
-  // Базовая виртуальная область для генерации координат (чтобы они не зависели от окна)
   const VIRTUAL_BOUNDS = 2000; 
 
   function resizeCanvas() {
     canvas2.width = window.innerWidth;
     canvas2.height = window.innerHeight;
-    // ТЕПЕРЬ ТУТ НЕТ СБРОСА ЗВЕЗД. Они продолжают лететь!
   }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
@@ -19,13 +17,10 @@ const canvas2 = document.getElementById('starfield');
   class Star {
     constructor() {
       this.reset();
-      // Распределяем звезды случайно по глубине при первом старте
       this.z = Math.random() * VIRTUAL_BOUNDS; 
     }
 
     reset() {
-      // Генерируем координаты в фиксированном виртуальном пространстве VIRTUAL_BOUNDS.
-      // Это гарантирует, что изменение размера окна никак не повлияет на положение звезд.
       this.x = (Math.random() - 0.5) * VIRTUAL_BOUNDS;
       this.y = (Math.random() - 0.5) * VIRTUAL_BOUNDS;
       this.z = VIRTUAL_BOUNDS; 
@@ -42,17 +37,14 @@ const canvas2 = document.getElementById('starfield');
       const cx = canvas2.width / 2;
       const cy = canvas2.height / 2;
 
-      // Константа FOV (поле зрения) делает так, что звезды всегда круглые
       const fov = 400; 
 
       const px = (this.x / this.z) * fov + cx;
       const py = (this.y / this.z) * fov + cy;
 
-      // Размер и плавное появление/затухание рассчитываем от максимальной виртуальной глубины
       const radius = (1 - this.z / VIRTUAL_BOUNDS) * 3;
       let alpha = (1 - this.z / VIRTUAL_BOUNDS);
       
-      // Если звезда вышла за рамки текущего размера экрана — просто не рисуем её в этом кадре
       if (px < 0 || px > canvas2.width || py < 0 || py > canvas2.height) {
         return;
       }
@@ -72,7 +64,6 @@ const canvas2 = document.getElementById('starfield');
   }
 
   function loop() {
-    // Не забывайте менять этот цвет, если меняете фон сайта
     ctx2.fillStyle = '#000000'; 
     ctx2.fillRect(0, 0, canvas2.width, canvas2.height);
 
@@ -99,7 +90,6 @@ const canvas2 = document.getElementById('starfield');
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            // Планета большая, смещена вниз и вправо для асимметрии в духе Web3
             planetRadius = Math.max(width, height) * 0.8; 
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line-color');
             ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--node-color');
@@ -116,7 +106,6 @@ const canvas2 = document.getElementById('starfield');
                     x: Math.cos(theta) * Math.sin(phi),
                     y: Math.sin(theta) * Math.sin(phi),
                     z: Math.cos(phi),
-                    // Немного случайного смещения, чтобы не было слишком идеально
                     offset: Math.random() * 0.1,
                     blinkPhase: Math.random() * Math.PI * 2,
                     blinkSpeed: 0.0002 + Math.random() * 0.0002
@@ -129,11 +118,9 @@ const canvas2 = document.getElementById('starfield');
         function draw() {
             ctx.clearRect(0, 0, width, height);
             
-            // Центр планеты смещен (вниз и вправо)
             const centerX = width * 0.6;
             const centerY = height * 0.7;
 
-            // 1. Рисуем тень/тело планеты (очень тонкий градиент)
             const gradient = ctx.createRadialGradient(centerX, centerY, planetRadius * 0.8, centerX, centerY, planetRadius);
             gradient.addColorStop(0, 'rgba(10, 10, 10, 0)'); // Прозрачный центр
             gradient.addColorStop(1, 'rgba(255, 255, 255, 0.03)'); // Легкий контур
@@ -147,7 +134,6 @@ const canvas2 = document.getElementById('starfield');
 
             const projectedNodes = [];
 
-            // 2. Проецируем и рисуем 3D точки
             for (let i = 0; i < nodes.length; i++) {
                 const node = nodes[i];
 
@@ -159,7 +145,6 @@ const canvas2 = document.getElementById('starfield');
                 let y = node.y;
                 let z = node.x * sinRY + node.z * cosRY;
 
-                // Вращение вокруг оси X (небольшой наклон планеты)
                 const tilt = 0.5;
                 const cosRX = Math.cos(tilt);
                 const sinRX = Math.sin(tilt);
@@ -169,9 +154,7 @@ const canvas2 = document.getElementById('starfield');
                 y = ky;
                 z = kz;
 
-                // Рисуем только те, что "спереди" (z > 0), чтобы скрыть заднюю сторону
                 if (z > -0.2) {
-                    // Масштабирование для перспективы
                     const scale = (z + 1.5) / 2.5; 
                     const px = x * planetRadius * scale + centerX;
                     const py = y * planetRadius * scale + centerY;
@@ -181,16 +164,13 @@ const canvas2 = document.getElementById('starfield');
                     const time = Date.now();
                     const blink = Math.sin(time * node.blinkSpeed + node.blinkPhase);
                     
-                    // Базовая прозрачность от глубины (перспектива)
                     const baseAlpha = (z + 0.2) / 1.2;
 
                     const alpha = baseAlpha * (0.7 + 0.3 * blink);
                     
                     projectedNodes.push({ x: px, y: py, alpha: alpha });
 
-                    // Рисуем точку
                     ctx.beginPath();
-                    // Размер точки тоже зависит от перспективы
                     ctx.arc(px, py, 2.3 * scale, 0, Math.PI * 2);
                     ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.8})`;
                     ctx.fill();
@@ -204,7 +184,6 @@ const canvas2 = document.getElementById('starfield');
                 }
             }
 
-            // 3. Рисуем линии между близкими точками
             ctx.lineWidth = 0.6;
             for (let i = 0; i < projectedNodes.length; i++) {
                 for (let j = i + 1; j < projectedNodes.length; j++) {
@@ -253,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 copyButtons.forEach(button => {
   button.addEventListener('click', () => {
-    // 1. Находим блок с кодом, который находится в том же terminal-box
     const terminalBox = button.closest('.terminal-box');
     const codeElement = terminalBox.querySelector('.code');
     const textToCopy = codeElement.textContent || codeElement.innerText;
@@ -261,18 +239,15 @@ copyButtons.forEach(button => {
     // 2. Копируем текст в буфер обмена
     navigator.clipboard.writeText(textToCopy.trim())
       .then(() => {
-        // Сохраняем исходную иконку (две папки)
         const originalSVG = button.innerHTML;
 
-        // 3. Заменяем внутренности SVG на галочку (сохраняя размеры 24x24 и stroke)
         button.innerHTML = `
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="success-check">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         `;
-        button.classList.add('copied'); // Добавляем класс для смены цвета кнопки (если нужно)
+        button.classList.add('copied');
 
-        // 4. Через 2 секунды возвращаем старую иконку документов
         setTimeout(() => {
           button.innerHTML = originalSVG;
           button.classList.remove('copied');
@@ -292,7 +267,6 @@ AOS.init({
   });
 
   const buttonHome = document.getElementById('buttonHome');
-  const buttonConnection = document.getElementById('buttonConnection');
   const buttonMain = document.getElementById('buttonMain');
 
   const mainSection = document.querySelector('.MAIN');
@@ -302,42 +276,24 @@ AOS.init({
   buttonHome.addEventListener('click', () => {
     buttonHome.classList.remove('home-button-');
     buttonHome.classList.add('home-button-active');
-    buttonConnection.classList.remove('connection-button-active');
     buttonMain.classList.remove('main-button-active');
 
     mainSection.classList.remove('MAINactive');
-    connectionSection.classList.remove('CONNECTIONactive');
     homeSection.classList.add('HOMEactive');
-  });
-
-  buttonConnection.addEventListener('click', () => {
-    buttonHome.classList.remove('home-button-active');
-    buttonHome.classList.add('home-button-');
-    buttonConnection.classList.add('connection-button-active');
-    buttonMain.classList.remove('main-button-active');
-
-    mainSection.classList.remove('MAINactive');
-    homeSection.classList.remove('HOMEactive');
-    homeSection.classList.add('HOME');
-    connectionSection.classList.add('CONNECTIONactive');
   });
 
   buttonMain.addEventListener('click', () => {
     buttonHome.classList.remove('home-button-active');
     buttonHome.classList.add('home-button-');
-    buttonConnection.classList.remove('connection-button-active');
     buttonMain.classList.add('main-button-active');
 
     homeSection.classList.remove('HOMEactive');
     homeSection.classList.add('HOME');
-    connectionSection.classList.remove('CONNECTIONactive');
     mainSection.classList.add('MAINactive');
   });
 
 const tg = window.Telegram.WebApp;
 
-// Повідомляємо Telegram, що додаток готовий до відображення (прибирає спалеш-скрін)
 tg.ready();
 
-// Розширюємо додаток на весь екран смартфона
 tg.expand();

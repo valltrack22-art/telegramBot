@@ -68,38 +68,6 @@
             border:none;
             margin: 4%;
         }
-            /* кнопка хом */
-        
-            /* конектион батон */
-        .connection-button- {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 0.05em;
-            color:#ffffffa7;
-            background-color: transparent;
-            height: 70px;
-            border:none;
-            margin-right: 4%;
-        }
-        
-        .connection-button-active {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 0.05em;
-            color:#fff;
-            background-color: transparent;
-            height: 70px;
-            border:none;
-            border-bottom: 1px solid #fff;
-            margin-right: 4%;
-        }
-            /* конектион батон */
 
              /* мейн батон */
         .main-button- {
